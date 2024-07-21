@@ -1,6 +1,13 @@
-﻿export const BtcPrice = () => {
-  return <div>
-      <h1>Bitcoin Price</h1>
-      <p>Current price: $40,000</p>
-  </div>
+﻿import { useGetBtcPrice } from "../../../hooks/useGetBtcCurrentPrice";
+
+export const BtcPrice = () => {
+
+    const { price,isLoading } = useGetBtcPrice();
+
+    return (
+        isLoading ? <div>Loading...</div> :
+            <div>Bitcoin price  :  {price?.bitcoin.usd}</div>
+    )
+
 };
+

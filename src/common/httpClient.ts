@@ -1,6 +1,6 @@
 ﻿/* eslint-disable @typescript-eslint/no-explicit-any */
 import axios from 'axios';
-import { ENVIRONMENT } from '@/config/env.tsx';
+import { ENVIRONMENT } from '../config/env';
 
 export class HttpError<T> extends Error
 {
@@ -17,7 +17,7 @@ export class HttpError<T> extends Error
 }
 
 export const axiosInstance = axios.create({
-  baseURL: `${ baseUrl()}/api / v1`,
+  baseURL: `${ baseUrl()}/api/v1`,
 });
 
 async function thenCatch(promise: Promise<any>) {

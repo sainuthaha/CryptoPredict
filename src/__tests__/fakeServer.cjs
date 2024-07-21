@@ -19,7 +19,6 @@ server.options('*', function (req, res) {
 });
 
 server.get(`${ROOT}/userScore`, async function (req, res) {
-    
         res.status(200).send(require('./mocks/jsons/userDetails.json'));
 });
 

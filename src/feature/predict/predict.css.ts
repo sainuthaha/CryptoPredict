@@ -1,7 +1,14 @@
 ﻿import { IStackStyles } from "@fluentui/react";
 
 export const stackItemStyles: IStackStyles = {
-    root: { backgroundColor: 'white', border: '1px solid black', padding: '20px', margin: '10px', width: '400px' },
+    root: {
+        backgroundColor: 'white',
+        border: '1px solid black',
+        padding: '20px',
+        margin: '10px',
+        width: '400px',
+        borderRadius: '10px',
+    },
 };
 
 export const stackStyles: IStackStyles = {
