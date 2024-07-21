@@ -21,15 +21,18 @@ const useSetScore = () => {
     return scoreResponse;
 };
 
-const useSetPrice = () => {
-    const dispatch = useDispatch();
-    const priceResponse = useGetBtcPrice();
-    console.log(priceResponse);
-    useEffect(() => {
-        dispatch(currentPriceActions.setCurrentPrice(priceResponse.price))
-    }, [priceResponse, dispatch]);
-    return priceResponse;
-};
+const useSetPrice = () => {  
+    const dispatch = useDispatch();  
+    const { price, isLoading } = useGetBtcPrice();  
+    console.log(price);
+    useEffect(() => {  
+        if(!isLoading) {  
+            dispatch(currentPriceActions.setCurrentPrice(price));  
+        }  
+    }, [price, dispatch, isLoading]);  
+      
+    return { price, isLoading };  
+};  
 
 export const Predict = () => {
 
