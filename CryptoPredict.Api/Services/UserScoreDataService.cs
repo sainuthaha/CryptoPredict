@@ -6,20 +6,20 @@ namespace CryptoPredict.Api.Services
 {
 	public class UserScoreDataService : IUserScoreDataService
 	{
-		private readonly CloudTableClient tableClient;
+		private readonly IStorageService storageService;
 
-		public UserScoreDataService(CloudTableClient tableClient)
+		public UserScoreDataService(IStorageService storageService)
 		{
-			this.tableClient = tableClient;
+			this.storageService = storageService;
 		}
-		Task<UserScoreData> IUserScoreDataService.GetUserScoreData()
+		public async Task<UserScoreData?> GetUserScoreData(string userId)
 		{
-			throw new NotImplementedException();
+			return await storageService.GetUserScoreData(userId);
 		}
 
-		Task<UserScoreData> IUserScoreDataService.PostUserScoreData()
+		public async Task<UserScoreData> PostUserScoreData(UserScoreData userScoreData)
 		{
-			throw new NotImplementedException();
+			return await storageService.PostUserScoreData(userScoreData);
 		}
 	}
 }

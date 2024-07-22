@@ -16,15 +16,15 @@ namespace CryptoPredict.Api.Controllers
 		}
 
 		[HttpGet]
-		public async Task<UserScoreData> GetUserScoreDataAsync()
+		public async Task<UserScoreData> GetUserScoreDataAsync(string userId)
 		{
-			return await userScoreDataService.GetUserScoreData();
+			return await userScoreDataService.GetUserScoreData(userId);
 		}
 
-		[HttpPut]
+		[HttpPost]
 		public async Task<UserScoreData> PostUserScoreDataAsync(UserScoreData userScoreData)
 		{
-			return await userScoreDataService.PostUserScoreData();
+			return await userScoreDataService.PostUserScoreData(userScoreData);
 		}
 
 	}

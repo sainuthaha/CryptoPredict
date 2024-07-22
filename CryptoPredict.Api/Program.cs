@@ -13,6 +13,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddSingleton<IBtcPriceService, BtcPriceService>();
+builder.Services.AddSingleton<IUserScoreDataService, UserScoreDataService>();
 builder.Services.AddStorageService(configuration);
 builder.Services.AddHttpClient<IBtcPriceService,BtcPriceService>(configuration);
 

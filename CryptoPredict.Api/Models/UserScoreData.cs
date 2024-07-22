@@ -1,10 +1,12 @@
-﻿namespace CryptoPredict.Api.Models
+﻿using Microsoft.Azure.Cosmos.Table;
+
+namespace CryptoPredict.Api.Models
 {
-	public record UserScoreData
+	public class UserScoreData: TableEntity
 	{
         public required string UserId { get; init; }
-		public int Score { get; init; }
-		public DateTime Date { get; init; }
-		public int GuessPrice { get; init; }
+		public long Score { get; init; }
+		public DateTimeOffset GuessTime { get; init; }
+		public long GuessPrice { get; init; }
 	}
 }

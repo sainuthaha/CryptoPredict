@@ -1,4 +1,5 @@
-﻿using CryptoPredict.Api.Interfaces;
+﻿using CryptoPredict.Api.Extensions;
+using CryptoPredict.Api.Interfaces;
 using CryptoPredict.Api.Models;
 using Microsoft.Azure.Cosmos.Table;
 
@@ -7,6 +8,31 @@ namespace CryptoPredict.Api.Services
 	public class StorageService : IStorageService
 	{
 		private readonly CloudTableClient tableClient;
+
+		private async Task<T> CreateOrUpdateInStorageAsync<T>(CloudTable table, T entity, IDictionary<string, EntityProperty> keyValuePairs = null) where T : TableEntity
+		{
+			if (string.IsNullOrEmpty(entity.PartitionKey))
+			{
+				entity.PartitionKey = Guid.NewGuid().ToString();
+			}
+
+			if (string.IsNullOrEmpty(entity.RowKey))
+			{
+				entity.RowKey = Guid.NewGuid().ToString();
+			}
+
+			table.CreateIfNotExists();
+
+			TableOperation upsertOperation = default;
+			DynamicTableEntity dynamicTableEntity = new DynamicTableEntity(entity.PartitionKey, entity.RowKey);
+			dynamicTableEntity.Properties = keyValuePairs;
+			upsertOperation = (keyValuePairs?.Count > 0) ?
+				TableOperation.InsertOrReplace(dynamicTableEntity) :
+				TableOperation.InsertOrReplace(entity);
+			var result = await table.ExecuteAsync(upsertOperation);
+
+			return result.Result as T;
+		}
 		private async Task<List<DynamicTableEntity>> GetDataFromStorageAsync(CloudTable table, TableQuery query)
 		{
 			var entities = new List<DynamicTableEntity>();
@@ -27,7 +53,7 @@ namespace CryptoPredict.Api.Services
 			this.tableClient = tableClient;
 		}
 
-		public async Task<UserScoreData> IStorageService.GetUserScoreData(string userId)
+		public async Task<UserScoreData?> GetUserScoreData(string userId)
 		{
 			var table = this.tableClient.GetTableReference("UserScoreData");
 
@@ -37,12 +63,14 @@ namespace CryptoPredict.Api.Services
 
 			var entities = await this.GetDataFromStorageAsync(table, tableQuery);
 
-			return entities;
+			return entities.Select(item => item.MapToUserScoreData()).FirstOrDefault();
 		}
 
-		Task<UserScoreData> IStorageService.PostUserScoreData()
+		public async Task<UserScoreData> PostUserScoreData(UserScoreData userScoreData)
 		{
-			throw new NotImplementedException();
+			var table = this.tableClient.GetTableReference("UserScoreData");
+
+			return await this.CreateOrUpdateInStorageAsync(table,userScoreData);
 		}
 	}
 }

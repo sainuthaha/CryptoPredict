@@ -4,7 +4,7 @@ namespace CryptoPredict.Api.Interfaces
 {
 	public interface IUserScoreDataService
 	{
-		Task<UserScoreData> PostUserScoreData();
-		Task<UserScoreData> GetUserScoreData();
+		Task<UserScoreData> PostUserScoreData(UserScoreData userScoreData);
+		Task<UserScoreData?> GetUserScoreData(string userId);
 	}
 }
