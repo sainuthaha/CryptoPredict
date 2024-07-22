@@ -1,13 +1,13 @@
 import useSWRMutation from 'swr/mutation';
 import { HttpError, put } from '../common/httpClient';
-import { Score } from '../models/score';
+import { UserScoreData } from '../models/score';
 
-export const useSetUserScore = (score: Score) => {
+export const useSetUserScore = (usersScoreData: UserScoreData) => {
     const url = '/userScore';
     const { data, error, isMutating, trigger } = useSWRMutation<
-   Score,
-    HttpError<Score>
-  >(url, () => put(url, { arg: score }), { revalidate: false });
+        UserScoreData,
+        HttpError<UserScoreData>
+    >(url, () => put(url, { arg: usersScoreData }), { revalidate: false });
 
     return {
     trigger,

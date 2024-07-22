@@ -2,9 +2,7 @@ import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { Price } from '../../../models/price';
 
 const initialState: Price = {
-    bitcoin: {
-        usd: 0
-    }
+    currentPrice: 0
 };
 
 const currentPriceSlice = createSlice({

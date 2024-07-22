@@ -1,9 +1,11 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Score } from '../../../models/score';
+import { UserScoreData } from '../../../models/score';
 
-const initialState: Score = {
+const initialState: UserScoreData = {
     userId: "",
-    score: 0
+    score: 0,
+    guessTime: undefined,
+    guessPrice: 0
 };
 
 const currentScoreSlice = createSlice({
@@ -14,9 +16,13 @@ const currentScoreSlice = createSlice({
             return { ...state, score: action.payload };
         },
 
-        setScore: (state, action: PayloadAction<Score | undefined>) => {
+        setScore: (state, action: PayloadAction<UserScoreData | undefined>) => {
             return { ...state, ...action.payload };
-        }
+        },
+        
+        setGuessTime: (state, action: PayloadAction<string | undefined>) => {
+            return { ...state, guessTime: action.payload };
+        },
     },
 });
 

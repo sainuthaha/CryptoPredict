@@ -33,7 +33,9 @@ server.put(`${ROOT}/userScore`, async function (req, res) {
 
 server.get(`${ROOT}/currentBtcPrice`, async function (req, res) {
     // await delay(3000);
-    res.status(200).send(require('./mocks/jsons/price.json'));
+    test = Math.random();
+    res.status(200).send({ "currentPrice": test } );
+    //res.status(200).send(require('./mocks/jsons/price.json'));
 });
 
 server.get(`${ROOT}/btcPrice/:timestamp`, async function (req, res) {
