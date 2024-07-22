@@ -1,4 +1,7 @@
-﻿using Newtonsoft.Json;
+﻿using CryptoPredict.Api.Interfaces;
+using CryptoPredict.Api.Services;
+using Microsoft.Azure.Cosmos.Table;
+using Newtonsoft.Json;
 
 namespace CryptoPredict.Api.Extensions
 {
@@ -27,6 +30,26 @@ namespace CryptoPredict.Api.Extensions
 			return responseObj is null
 				? throw new System.Text.Json.JsonException("Unable to deserialize response")
 				: responseObj;
+		}
+
+		public static IServiceCollection AddStorageService(this IServiceCollection services, IConfiguration config)
+		{
+			services.AddSingleton<IStorageService, StorageService>((serviceProvider) =>
+			{
+				string storageConnectionString = config.GetValue<string>("ConnectionString") ?? throw new InvalidOperationException("ConnectionString must be set in the configuration.");
+				CloudTableClient tableClient = null; // Initialize to null
+				if (CloudStorageAccount.TryParse(storageConnectionString, out CloudStorageAccount storageAccount))
+				{
+					tableClient = storageAccount.CreateCloudTableClient();
+				}
+				else
+				{
+					throw new InvalidOperationException("Invalid storage connection string.");
+				}
+				return new StorageService(tableClient);
+			});
+
+			return services;
 		}
 
 		public static IServiceCollection AddHttpClient<TClient, TImplementation>(
