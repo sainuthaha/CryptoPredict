@@ -1,4 +1,6 @@
-﻿using CryptoPredict.Api.Interfaces;
+﻿using CryptoPredict.Api.Extensions;
+using CryptoPredict.Api.Interfaces;
+using CryptoPredict.Api.Models;
 
 namespace CryptoPredict.Api.Services
 {
@@ -14,17 +16,8 @@ namespace CryptoPredict.Api.Services
        
 		public async Task<int> GetBtcCurrentPrice()
 		{
-			var response = await httpClient.GetAsync(btcCurrentPriceApiEndpoint);
-			if (response.IsSuccessStatusCode)
-			{
-				var content = await response.Content.ReadAsStringAsync();
-				// Assuming the API returns the price directly as an integer in the response body
-				if (int.TryParse(content, out int btcPrice))
-				{
-					return btcPrice;
-				}
-			}
-			throw new Exception("Failed to fetch BTC price or parse response.");
+			var response = await httpClient.GetResponseAsync<BtcPrice>(btcCurrentPriceApiEndpoint);
+			return response.bitcoin.usd;
 		}
 
     }
