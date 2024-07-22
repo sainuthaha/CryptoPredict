@@ -1,7 +1,4 @@
 export interface Price {
-    bitcoin: Bitcoin;
+   currentPrice: number;
 }
 
-export interface Bitcoin {
-    usd: number;
-}

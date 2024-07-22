@@ -1,10 +1,11 @@
 ﻿import { Button, IButtonStyles } from "@fluentui/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Score } from "../../../models/score";
 import useStoreState from "../../../hooks/useStoreState";
-import { Price } from "../../../models/price";
 import { useDispatch } from "react-redux";
 import { currentScoreActions } from "./currentScoreSlice";
+import { useSetUserScore } from "../../../hooks/useSetUsersScore";
+import { useGetBtcMarketRange } from "../../../hooks/useGetBtcMarketRange";
 
 const greenButtonStyles: IButtonStyles = {
     root: {
@@ -22,56 +23,65 @@ const redButtonStyles: IButtonStyles = {
     },
 };
 
-
-
 export const GuessPrice = () => {
     const dispatch = useDispatch();
-    const { score } = useStoreState<Score>(state => state.score)
-    const { bitcoin } = useStoreState<Price>(state => state.price);
-    const prevBtcPrice = useRef<number | undefined>();
-    const currentPrice = bitcoin.usd;
+    const score = useStoreState<Score>(state => state.score)
+
+    const { trigger: setUserScore } = useSetUserScore(score);
 
     const [lastGuess, setLastGuess] = useState<string | null>(null);
-    const [guessTime, setGuessTime] = useState<number | null>(null);
+    const [guessTime, setGuessTime] = useState<number | undefined>(undefined);
+    const [commitTime, setCommitTime] = useState<number | undefined>(undefined);
+    const { btcMarketRange, isLoading } = useGetBtcMarketRange(commitTime);
+    const currentPrice = btcMarketRange?.currentPrice ?? 0;
+    const previousPrice = btcMarketRange?.previousPrice ?? 0;
+    const [countdown, setCountdown] = useState<number | null>(null);
 
     useEffect(() => {
-        prevBtcPrice.current = currentPrice;  
-    }, [currentPrice]); 
-
-
-
+        if (lastGuess && countdown && countdown == 5) {
+            setInterval(() => {
+                setCountdown(countdown => countdown !== null && countdown > 0 ? countdown - 1 : 0);
+            }, 1000); // Decrease countdown by 1 every second  
+        }
+    }, [countdown, lastGuess]);
 
     useEffect(() => {
+        if (lastGuess && guessTime && !isLoading && countdown == 0) {
+            setCommitTime(Date.now());
 
-        if (guessTime && Date.now() - guessTime >= 60000) {
-            if ((lastGuess === 'up' && currentPrice > (prevBtcPrice.current ?? 0)) ||
-                (lastGuess === 'down' && currentPrice < (prevBtcPrice.current ?? Infinity))) {  
-                    dispatch(currentScoreActions.setCurrentScore(score + 1));
-
-                } else {
-                    dispatch(currentScoreActions.setCurrentScore(score - 1));
-
-                }
-                setLastGuess(null);
-                setGuessTime(null);
+            if ((lastGuess === 'up' && currentPrice > previousPrice) ||
+                (lastGuess === 'down' && currentPrice < previousPrice)) {
+                dispatch(currentScoreActions.setCurrentScore(score.score + 1));
+                setUserScore();
+            } else {
+                dispatch(currentScoreActions.setCurrentScore(score.score - 1));
+                setUserScore();
             }
-       
-    }, [lastGuess, guessTime, score, currentPrice, dispatch]);
+            setLastGuess(null);
+        }
 
-    const makeGuess = (guess:string) => {
+    }, [lastGuess, guessTime, score, currentPrice, dispatch, previousPrice, commitTime, countdown, setUserScore, isLoading]);
+
+    const makeGuess = (guess: string) => {
         if (!lastGuess) {
             setLastGuess(guess);
             setGuessTime(Date.now());
+            setCountdown(5);
         }
     };
 
     return (
+        <>
+        <div>  
+            {countdown !== null ? `Countdown: ${countdown}` : 'Waiting for guess...'}  
+        </div>  
+            <br>
+            </br>
         <div>
-            <div>Score: {score}</div>
-            <div>BTC Price: {currentPrice}</div>
             <Button disabled={!!lastGuess} styles={greenButtonStyles} onClick={() => makeGuess('up')}>Up</Button>
             <Button disabled={!!lastGuess} styles={redButtonStyles} onClick={() => makeGuess('down')}>Down</Button>
-        </div>
+            </div>
+        </>
     );
 };
- 
+

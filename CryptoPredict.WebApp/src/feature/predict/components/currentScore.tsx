@@ -5,7 +5,7 @@ export const CurrentScore = () => {
 
     const { score } = useStoreState<Score>(state => state.score)
     return (
-            <div>Score:{score}</div>
+            <div>Score :{score}</div>
     )
 
 };

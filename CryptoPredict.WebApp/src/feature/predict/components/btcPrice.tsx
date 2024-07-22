@@ -1,13 +1,11 @@
-﻿import { useGetBtcPrice } from "../../../hooks/useGetBtcCurrentPrice";
+﻿import useStoreState from "../../../hooks/useStoreState";
+import { Price } from "../../../models/price";
 
 export const BtcPrice = () => {
 
-    const { price,isLoading } = useGetBtcPrice();
+    const { currentPrice } = useStoreState<Price>(state => state.price);
 
-    return (
-        isLoading ? <div>Loading...</div> :
-            <div>Bitcoin price  :  {price?.bitcoin.usd}</div>
-    )
+    return (<div>Current BTC price  :  {currentPrice}</div>)
 
 };
 

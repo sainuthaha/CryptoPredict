@@ -4,7 +4,7 @@ const AppDetails = () => {
   return (
     <header style={headerStyle}>
       <img src="../src/assets/bitCoin.jpg" alt="Banner" style={imageStyle} />
-      <h1 style={textStyle}>BitCoin Price Predictor</h1>
+      <h1 style={textStyle}>BTC Price Predictor</h1>
     </header>
   )
 }
