@@ -2,7 +2,7 @@
 import { HttpError, get } from '../common/httpClient';
 //https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd
 
-const refreshGap = 30*1000;
+const refreshGap = 5*1000;
 
 export const useGetBtcPrice = () => {
     const {

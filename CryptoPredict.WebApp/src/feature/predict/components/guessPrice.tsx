@@ -34,7 +34,7 @@ export const GuessPrice = () => {
 	const { trigger: setUserScore } = useSetUserScore();
 
 	useEffect(() => {
-		if (lastGuess && countdown && countdown == 30) {
+		if (lastGuess && countdown && countdown == 60) {
 			setInterval(() => {
 				setCountdown(countdown => countdown !== null && countdown > 0 ? countdown - 1 : 0);
 			}, 1000);
@@ -59,7 +59,7 @@ export const GuessPrice = () => {
 			setLastGuess(null);
 			setTimeout(() => {
 				setUserScore();
-			}, 2000);
+			}, 5000);
 		}
 
 	}, [lastGuess, guessTime, dispatch, countdown, setUserScore, usersScoreData.score, price, usersScoreData.guessPrice, usersScoreData.userId, usersScoreData.guessTime, usersScoreData, btcPrice]);
@@ -71,9 +71,9 @@ export const GuessPrice = () => {
 			setBtcPrice(price);
 			setTimeout(() => {
 				setUserScore();
-			}, 2000);  // delay of 2 seconds 
+			}, 5000);  // delay of 2 seconds 
 
-			setCountdown(30);
+			setCountdown(60);
 		}
 	};
 
