@@ -2,12 +2,19 @@
 {
 	public class BtcPrice
 	{
-		public required Bitcoin bitcoin { get; set; }
+		public required Bitcoin bpi { get; set; }
 	}
 
 	public class Bitcoin
 	{
-		public int usd { get; set; }
+		public required USD usd;
 	}
+
+	public class USD
+	{
+		public required float rate_float;
+	
+	}
+	
 
 }

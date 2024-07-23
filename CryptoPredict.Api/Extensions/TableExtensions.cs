@@ -16,7 +16,7 @@ namespace CryptoPredict.Api.Extensions
 				RowKey = entity.RowKey,
 				UserId = properties["UserId"].StringValue,
 				Score = properties["Score"].Int64Value ?? 0,
-				GuessPrice = properties["GuessPrice"].Int64Value ?? 0,
+				GuessPrice = (float)(properties["GuessPrice"].DoubleValue ?? 0),
 				GuessTime = properties["GuessTime"].DateTime ?? default
 			};
 		}

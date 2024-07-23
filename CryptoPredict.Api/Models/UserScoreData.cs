@@ -7,6 +7,6 @@ namespace CryptoPredict.Api.Models
         public required string UserId { get; init; }
 		public long Score { get; init; }
 		public DateTime GuessTime { get; init; }
-		public long GuessPrice { get; init; }
+		public float GuessPrice { get; init; }
 	}
 }

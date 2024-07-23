@@ -16,7 +16,7 @@ namespace CryptoPredict.Api.Controllers
 
         [HttpGet]
         [Route("currentPrice")]
-        public async Task<int> GetCurrentPriceAsync()
+        public async Task<float> GetCurrentPriceAsync()
         {
             return await btcPriceService.GetBtcCurrentPrice();
         }

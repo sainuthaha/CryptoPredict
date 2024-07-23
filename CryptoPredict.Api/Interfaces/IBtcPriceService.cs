@@ -2,6 +2,6 @@
 {
     public interface IBtcPriceService
     {
-        Task<int> GetBtcCurrentPrice();
+        Task<float> GetBtcCurrentPrice();
     }
 }

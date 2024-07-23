@@ -6,7 +6,7 @@ namespace CryptoPredict.Api.Services
 {
     public class BtcPriceService:IBtcPriceService
     {
-		private const string btcCurrentPriceApiEndpoint = "/api/v3/simple/price?ids=bitcoin&vs_currencies=usd";
+		private const string btcCurrentPriceApiEndpoint = "/v1/bpi/currentprice/BTC.json";
 
 		private readonly HttpClient httpClient;
         public BtcPriceService(HttpClient httpClient)
@@ -14,10 +14,11 @@ namespace CryptoPredict.Api.Services
             this.httpClient = httpClient;
         }
        
-		public async Task<int> GetBtcCurrentPrice()
+		public async Task<float> GetBtcCurrentPrice()
 		{
 			var response = await httpClient.GetResponseAsync<BtcPrice>(btcCurrentPriceApiEndpoint);
-			return response.bitcoin.usd;
+            return response.bpi.usd.rate_float;
+
 		}
 
     }
