@@ -50,5 +50,5 @@ function updateAuthToken(headers: any) {
 
 function baseUrl()
 {
-    return ENVIRONMENT.DEV ? 'https://localhost:7296' : `https://${window.location.hostname.replace('webapp', 'api')}`;
+    return ENVIRONMENT.DEV ? 'https://localhost:7296' : 'https://crypto-predict-api.azurewebsites.net';
 }

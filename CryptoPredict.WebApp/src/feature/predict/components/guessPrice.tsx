@@ -59,19 +59,23 @@ export const GuessPrice = () => {
 			setLastGuess(null);
 			setTimeout(() => {
 				setUserScore();
-			}, 5000);
+			}, 2000);
 		}
 
 	}, [lastGuess, guessTime, dispatch, countdown, setUserScore, usersScoreData.score, price, usersScoreData.guessPrice, usersScoreData.userId, usersScoreData.guessTime, usersScoreData, btcPrice]);
 
 	const makeGuess = (guess: string) => {
+		console.log("makeGuess")
 		if (!lastGuess) {
 			setLastGuess(guess);
 			setGuessTime(new Date().toISOString());
 			setBtcPrice(price);
+			console.log("user clciking......");
+			dispatch(currentScoreActions.setScore({ "guessPrice": price, "guessTime": new Date().toISOString(), "score": usersScoreData.score, "userId": usersScoreData.userId }));
+
 			setTimeout(() => {
 				setUserScore();
-			}, 5000);  // delay of 2 seconds 
+			}, 5000); 
 
 			setCountdown(60);
 		}

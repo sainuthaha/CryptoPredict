@@ -1,9 +1,9 @@
-﻿import { Score } from "../../../models/score";
-import useStoreState from "../../../hooks/useStoreState";
+﻿import useStoreState from "../../../hooks/useStoreState";
+import { UserScoreData } from "../../../models/score";
 
 export const CurrentScore = () => {
 
-    const { score } = useStoreState<Score>(state => state.score)
+    const { score } = useStoreState<UserScoreData>(state => state.score)
     return (
             <div>Score :{score}</div>
     )
