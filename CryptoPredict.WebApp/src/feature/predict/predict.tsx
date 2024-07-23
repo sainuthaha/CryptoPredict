@@ -1,4 +1,4 @@
-﻿import { Stack } from "@fluentui/react";
+﻿import { PrimaryButton, Stack,Text } from "@fluentui/react";
 import { stackItemStyles, stackStyles } from "./predict.css";
 import { BtcPrice } from "./components/btcPrice";
 import { GuessPrice } from "./components/guessPrice";
@@ -10,13 +10,13 @@ import { currentScoreActions } from "./components/currentScoreSlice";
 import { currentPriceActions } from "./components/btcPriceSlice";
 import { useGetBtcPrice } from "../../hooks/useGetBtcCurrentPrice";
 
-const useSetScore = () => {
+const useSetScore = (userId: string) => {
 	const dispatch = useDispatch();
-	const userId = "sainu1";
+	//const userId = "sainu1";
 	const scoreResponse = useGetUserScore("sainu1");
 	useEffect(() => {
 		dispatch(currentScoreActions.setScore({ "guessPrice": scoreResponse.score?.guessPrice ?? 0, "guessTime": new Date().toISOString(), "score": scoreResponse.score?.score ?? 0, "userId": scoreResponse.score?.userId ?? userId }));
-	}, [scoreResponse, dispatch]);
+	}, [scoreResponse, dispatch, userId]);
 	return scoreResponse;
 };
 
@@ -34,17 +34,26 @@ const useSetPrice = () => {
 	return { price, isLoading };
 };
 
-export const Predict = () => {
+interface PredictProps {
+	userId: string;
+	onChange: () => void;
+}
 
-	useSetScore();
+export const Predict = ({ userId, onChange }: PredictProps) => {
+
+	useSetScore(userId);
 	useSetPrice();
 
 	return (
 		<Stack horizontalAlign="center" styles={stackStyles}>
+			<Stack.Item styles={stackItemStyles}>
+				<Text>User ID: {userId}</Text> 
+			</Stack.Item>
 			<Stack.Item styles={stackItemStyles}><CurrentScore /></Stack.Item>
 			<Stack.Item styles={stackItemStyles}><BtcPrice /></Stack.Item>
 			<Stack.Item styles={stackItemStyles}><GuessPrice /></Stack.Item>
+			<Stack.Item styles={stackItemStyles}><PrimaryButton text="Change User" onClick={onChange} /></Stack.Item>
 		</Stack>
 	);
-
 };
+
