@@ -66,10 +66,15 @@ namespace CryptoPredict.Api.Services
 			return entities.Select(item => item.MapToUserScoreData()).FirstOrDefault();
 		}
 
-		public async Task<UserScoreData> PostUserScoreData(UserScoreData userScoreData)
+		public async Task<UserScoreData?> PostUserScoreData(UserScoreData userScoreData)
 		{
 			var table = this.tableClient.GetTableReference("UserScoreData");
-
+			var entity = await GetUserScoreData(userScoreData.UserId);
+			if (entity != null)
+			{
+				userScoreData.PartitionKey = entity.PartitionKey;
+				userScoreData.RowKey = entity.RowKey;
+			}
 			return await this.CreateOrUpdateInStorageAsync(table,userScoreData);
 		}
 	}

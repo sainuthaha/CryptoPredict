@@ -12,10 +12,12 @@ namespace CryptoPredict.Api.Extensions
 
 			return new UserScoreData()
 			{
+				PartitionKey = entity.PartitionKey,
+				RowKey = entity.RowKey,
 				UserId = properties["UserId"].StringValue,
 				Score = properties["Score"].Int64Value ?? 0,
 				GuessPrice = properties["GuessPrice"].Int64Value ?? 0,
-				GuessTime = properties["GuessTime"].DateTimeOffsetValue ?? DateTimeOffset.MinValue
+				GuessTime = properties["GuessTime"].DateTime ?? default
 			};
 		}
 

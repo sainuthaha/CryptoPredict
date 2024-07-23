@@ -1,6 +1,7 @@
 using CryptoPredict.Api.Extensions;
 using CryptoPredict.Api.Interfaces;
 using CryptoPredict.Api.Services;
+using Microsoft.AspNetCore.Builder;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -24,6 +25,9 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+	app.UseCors(
+		corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+	);
 }
 
 app.UseHttpsRedirection();

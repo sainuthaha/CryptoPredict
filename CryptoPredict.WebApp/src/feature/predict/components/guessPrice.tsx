@@ -1,5 +1,5 @@
 ﻿import { Button, IButtonStyles } from "@fluentui/react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { UserScoreData } from "../../../models/score";
 import useStoreState from "../../../hooks/useStoreState";
 import { useDispatch } from "react-redux";
@@ -24,18 +24,17 @@ const redButtonStyles: IButtonStyles = {
 
 export const GuessPrice = () => {
     const dispatch = useDispatch();
-    const usersScoreData = useStoreState<UserScoreData>(state => state.score)
-    console.log(usersScoreData);
-    const [lastGuess, setLastGuess] = useState<string | null>(null);
-    const [guessTime, setGuessTime] = useState<string | undefined>(undefined);
-    const price = useStoreState<number>(state => state.price.currentPrice);
-    const [countdown, setCountdown] = useState<number | null>(null);
-    const usersScoreDataRef = useRef(usersScoreData);
-    const { trigger: setUserScore } = useSetUserScore(usersScoreDataRef.current);
+    const usersScoreData = useStoreState<UserScoreData>(state => state.score);
 
+    const [lastGuess, setLastGuess] = useState<string | null>(null);
+    const [guessTime, setGuessTime] = useState<string |null>(null);
+    const price = useStoreState<number>(state => state.price);
+    const [btcPrice, setBtcPrice] = useState<number>(price);
+    const [countdown, setCountdown] = useState<number | null>(null);
+    const { trigger: setUserScore } = useSetUserScore();
 
     useEffect(() => {
-        if (lastGuess && countdown && countdown == 5) {
+        if (lastGuess && countdown && countdown == 30) {
             setInterval(() => {
                 setCountdown(countdown => countdown !== null && countdown > 0 ? countdown - 1 : 0);
             }, 1000);
@@ -43,31 +42,43 @@ export const GuessPrice = () => {
     }, [countdown, lastGuess]);
 
     useEffect(() => {
-        usersScoreDataRef.current = usersScoreData;
+        setBtcPrice(price);
+    }, [price])
+
+    useEffect(() => {
+      //  usersScoreDataRef.current = usersScoreData;
         if (lastGuess && guessTime && countdown == 0) {
 
-            if ((lastGuess === 'up' && price > usersScoreDataRef.current.guessPrice) ||
-                (lastGuess === 'down' && price < usersScoreDataRef.current.guessPrice)) {
-                dispatch(currentScoreActions.setCurrentScore(usersScoreDataRef.current.score + 1));
+            if ((lastGuess === 'up' && price > usersScoreData.guessPrice) ||
+                (lastGuess === 'down' && price < usersScoreData.guessPrice)) {
+                dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score, "userId": usersScoreData.userId }));
 
             } else {
-                dispatch(currentScoreActions.setCurrentScore(usersScoreDataRef.current.score - 1));
+                dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score, "userId": usersScoreData.userId }));
 
             }
             setLastGuess(null);
-            setUserScore();
+            setTimeout(() => {
+                setUserScore();
+            }, 2000);
         }
 
-    }, [lastGuess, guessTime, dispatch, countdown, setUserScore, usersScoreData.score, price, usersScoreData.guessPrice, usersScoreData.userId, usersScoreData.guessTime, usersScoreData]);
+    }, [lastGuess, guessTime, dispatch, countdown, setUserScore, usersScoreData.score, price, usersScoreData.guessPrice, usersScoreData.userId, usersScoreData.guessTime, usersScoreData, btcPrice]);
 
     const makeGuess = (guess: string) => {
         if (!lastGuess) {
+            console.log(price);
             setLastGuess(guess);
-            setGuessTime(Date.now().toString());
-            console.log("guessTime", guessTime);
-            dispatch(currentScoreActions.setGuessTime(guessTime));
-            setUserScore();
-            setCountdown(5);
+            setGuessTime( new Date().toISOString());
+            setBtcPrice(price);
+            dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score, "userId": usersScoreData.userId }));
+            //dispatch(currentScoreActions.setGuessTime(guessTime));
+          //  dispatch(currentScoreActions.setGuessPrice(price));
+            setTimeout(() => {
+                setUserScore();
+            }, 2000);  // delay of 2 seconds 
+           
+            setCountdown(30);
         }
     };
 

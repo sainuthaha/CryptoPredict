@@ -1,16 +1,13 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
-import { Price } from '../../../models/price';
 
-const initialState: Price = {
-    currentPrice: 0
-};
+const initialState: number = 0;
 
 const currentPriceSlice = createSlice({
     name: 'currentPriceSlice',
     initialState,
     reducers: {
-        setCurrentPrice: (state, action: PayloadAction<Price | undefined>) => {
-            return { ...state, ...action.payload };
+        setCurrentPrice: (state, action: PayloadAction<number | undefined>) => {
+            return action.payload !== undefined ? action.payload : state;
         }
     },
 });

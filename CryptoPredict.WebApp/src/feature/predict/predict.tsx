@@ -11,40 +11,40 @@ import { currentPriceActions } from "./components/btcPriceSlice";
 import { useGetBtcPrice } from "../../hooks/useGetBtcCurrentPrice";
 
 const useSetScore = () => {
-    const dispatch = useDispatch();
-    const scoreResponse = useGetUserScore();
-
-    useEffect(() => {
-        dispatch(currentScoreActions.setScore(scoreResponse.score))
-    }, [scoreResponse, dispatch]);
-    return scoreResponse;
+	const dispatch = useDispatch();
+	const userId = "sainu1";
+	const scoreResponse = useGetUserScore("sainu1");
+	useEffect(() => {
+		dispatch(currentScoreActions.setScore({ "guessPrice": scoreResponse.score?.guessPrice ?? 0, "guessTime": new Date().toISOString(), "score": scoreResponse.score?.score ?? 0, "userId": scoreResponse.score?.userId ?? userId }));
+	}, [scoreResponse, dispatch]);
+	return scoreResponse;
 };
 
-const useSetPrice = () => {  
-    const dispatch = useDispatch();  
-    const { price, isLoading } = useGetBtcPrice();  
+const useSetPrice = () => {
+	const dispatch = useDispatch();
+	const { price, isLoading } = useGetBtcPrice();
 
-    useEffect(() => {  
-        console.log(price);
-        if(!isLoading) {  
-            dispatch(currentPriceActions.setCurrentPrice(price));  
-        }  
-    }, [price, dispatch, isLoading]);  
-      
-    return { price, isLoading };  
-}; 
+	useEffect(() => {
+		console.log(price);
+		if (!isLoading) {
+			dispatch(currentPriceActions.setCurrentPrice(price));
+		}
+	}, [price, dispatch, isLoading]);
+
+	return { price, isLoading };
+};
 
 export const Predict = () => {
 
-    useSetScore();
-    useSetPrice();
+	useSetScore();
+	useSetPrice();
 
-    return (
-        <Stack horizontalAlign="center" styles={stackStyles}>
-            <Stack.Item styles={stackItemStyles}><CurrentScore /></Stack.Item>
-            <Stack.Item styles={stackItemStyles}><BtcPrice /></Stack.Item>
-            <Stack.Item styles={stackItemStyles}><GuessPrice /></Stack.Item>
-        </Stack>
-    );
+	return (
+		<Stack horizontalAlign="center" styles={stackStyles}>
+			<Stack.Item styles={stackItemStyles}><CurrentScore /></Stack.Item>
+			<Stack.Item styles={stackItemStyles}><BtcPrice /></Stack.Item>
+			<Stack.Item styles={stackItemStyles}><GuessPrice /></Stack.Item>
+		</Stack>
+	);
 
 };

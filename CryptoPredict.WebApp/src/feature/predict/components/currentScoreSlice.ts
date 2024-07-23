@@ -4,8 +4,8 @@ import { UserScoreData } from '../../../models/score';
 const initialState: UserScoreData = {
     userId: "",
     score: 0,
-    guessTime: undefined,
-    guessPrice: 0
+    guessTime: null,
+    guessPrice: 0,
 };
 
 const currentScoreSlice = createSlice({
@@ -17,12 +17,18 @@ const currentScoreSlice = createSlice({
         },
 
         setScore: (state, action: PayloadAction<UserScoreData | undefined>) => {
+            console.log(action.payload);
             return { ...state, ...action.payload };
         },
-        
-        setGuessTime: (state, action: PayloadAction<string | undefined>) => {
+
+        setGuessTime: (state, action: PayloadAction<string | null>) => {
             return { ...state, guessTime: action.payload };
         },
+
+        setGuessPrice: (state, action: PayloadAction<number>) => {
+            return { ...state, guessPrice: action.payload };
+        }
+        
     },
 });
 
