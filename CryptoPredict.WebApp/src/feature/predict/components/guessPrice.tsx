@@ -25,7 +25,6 @@ const redButtonStyles: IButtonStyles = {
 export const GuessPrice = () => {
 	const dispatch = useDispatch();
 	const usersScoreData = useStoreState<UserScoreData>(state => state.score);
-	const [guess, setGuess] = useState<string | null>(null);
 	const [lastGuess, setLastGuess] = useState<string | null>(null);
 	const [guessTime, setGuessTime] = useState<string | null>(null);
 	const price = useStoreState<number>(state => state.price);
@@ -47,7 +46,7 @@ export const GuessPrice = () => {
 
 	useEffect(() => {
 		if (lastGuess && guessTime && countdown == 0) {
-
+			console.log("inside use effect of guess price");
 			if ((lastGuess === 'up' && price > usersScoreData.guessPrice) ||
 				(lastGuess === 'down' && price < usersScoreData.guessPrice)) {
 				dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score + 1, "userId": usersScoreData.userId }));
@@ -70,7 +69,6 @@ export const GuessPrice = () => {
 
 	const makeGuess = (guess: string) => {
 		console.log("makeGuess")
-		setGuess(guess);
 		if (!lastGuess) {
 			setLastGuess(guess);
 			setGuessTime(new Date().toISOString());
@@ -93,7 +91,7 @@ export const GuessPrice = () => {
 			</div>
 			<br>
 			</br>
-			{guess !== null && `Selection: ${guess}`}
+			{lastGuess !== null && `Selection: ${lastGuess}`}
 		
 			<div>
 				<Button disabled={!!lastGuess} styles={greenButtonStyles} onClick={() => makeGuess('up')}>Up</Button>

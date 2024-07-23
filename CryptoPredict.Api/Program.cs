@@ -20,6 +20,10 @@ builder.Services.AddHttpClient<IBtcPriceService,BtcPriceService>(configuration);
 
 var app = builder.Build();
 
+app.UseCors(
+		corsPolicyBuilder => corsPolicyBuilder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
+	);
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {

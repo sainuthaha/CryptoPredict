@@ -15,10 +15,18 @@ const useSetScore =  (userId: string) => {
 	console.log("helooooooo");
 	//const userId = "sainu1";
 	const scoreResponse = useGetUserScore(userId);
-	console.log(scoreResponse);
+
+	console.log("Response:", scoreResponse);
 	useEffect(() => {
-		dispatch(currentScoreActions.setScore({ "guessPrice": scoreResponse.score?.guessPrice ?? 0, "guessTime": new Date().toISOString(), "score": scoreResponse.score?.score ?? 0, "userId": scoreResponse.score?.userId ?? userId }));
-	}, [scoreResponse, dispatch, userId]);
+		dispatch(currentScoreActions.setScore(
+			{
+				"guessPrice": scoreResponse.score?.guessPrice ?? 0,
+				"guessTime": new Date().toISOString(),
+				"score": scoreResponse.score?.score ?? 0,
+				"userId": scoreResponse.score?.userId ?? userId
+			}));
+	}, [scoreResponse, dispatch, userId]);  
+
 	return scoreResponse;
 };
 

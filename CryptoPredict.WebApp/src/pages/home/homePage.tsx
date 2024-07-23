@@ -16,6 +16,7 @@ export const HomePage = () => {
 	const changeUser = () => {
 		setIsGameStarted(false);
 		setUserId("");
+		window.location.reload();
 	};  
 
 	return (
