@@ -25,7 +25,7 @@ const redButtonStyles: IButtonStyles = {
 export const GuessPrice = () => {
 	const dispatch = useDispatch();
 	const usersScoreData = useStoreState<UserScoreData>(state => state.score);
-
+	const [guess, setGuess] = useState<string | null>(null);
 	const [lastGuess, setLastGuess] = useState<string | null>(null);
 	const [guessTime, setGuessTime] = useState<string | null>(null);
 	const price = useStoreState<number>(state => state.price);
@@ -50,22 +50,27 @@ export const GuessPrice = () => {
 
 			if ((lastGuess === 'up' && price > usersScoreData.guessPrice) ||
 				(lastGuess === 'down' && price < usersScoreData.guessPrice)) {
-				dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score+1, "userId": usersScoreData.userId }));
-
-			} else {
-				dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score-1, "userId": usersScoreData.userId }));
+				dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score + 1, "userId": usersScoreData.userId }));
+			}
+			else if ((lastGuess === 'up' && price < usersScoreData.guessPrice) ||
+				(lastGuess === 'down' && price > usersScoreData.guessPrice)) {
+				dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score - 1, "userId": usersScoreData.userId }));
+			}
+			else {
+				dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score, "userId": usersScoreData.userId }));
 
 			}
 			setLastGuess(null);
 			setTimeout(() => {
 				setUserScore();
-			}, 2000);
+			}, 1000);
 		}
 
 	}, [lastGuess, guessTime, dispatch, countdown, setUserScore, usersScoreData.score, price, usersScoreData.guessPrice, usersScoreData.userId, usersScoreData.guessTime, usersScoreData, btcPrice]);
 
 	const makeGuess = (guess: string) => {
 		console.log("makeGuess")
+		setGuess(guess);
 		if (!lastGuess) {
 			setLastGuess(guess);
 			setGuessTime(new Date().toISOString());
@@ -75,7 +80,7 @@ export const GuessPrice = () => {
 
 			setTimeout(() => {
 				setUserScore();
-			}, 5000); 
+			}, 2000);
 
 			setCountdown(60);
 		}
@@ -88,6 +93,8 @@ export const GuessPrice = () => {
 			</div>
 			<br>
 			</br>
+			{guess !== null && `Selection: ${guess}`}
+		
 			<div>
 				<Button disabled={!!lastGuess} styles={greenButtonStyles} onClick={() => makeGuess('up')}>Up</Button>
 				<Button disabled={!!lastGuess} styles={redButtonStyles} onClick={() => makeGuess('down')}>Down</Button>

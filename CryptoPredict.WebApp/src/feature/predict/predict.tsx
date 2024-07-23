@@ -10,10 +10,12 @@ import { currentScoreActions } from "./components/currentScoreSlice";
 import { currentPriceActions } from "./components/btcPriceSlice";
 import { useGetBtcPrice } from "../../hooks/useGetBtcCurrentPrice";
 
-const useSetScore = (userId: string) => {
+const useSetScore =  (userId: string) => {
 	const dispatch = useDispatch();
+	console.log("helooooooo");
 	//const userId = "sainu1";
 	const scoreResponse = useGetUserScore(userId);
+	console.log(scoreResponse);
 	useEffect(() => {
 		dispatch(currentScoreActions.setScore({ "guessPrice": scoreResponse.score?.guessPrice ?? 0, "guessTime": new Date().toISOString(), "score": scoreResponse.score?.score ?? 0, "userId": scoreResponse.score?.userId ?? userId }));
 	}, [scoreResponse, dispatch, userId]);

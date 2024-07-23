@@ -55,7 +55,7 @@ namespace CryptoPredict.Api.Services
 
 		public async Task<UserScoreData?> GetUserScoreData(string userId)
 		{
-			var table = this.tableClient.GetTableReference("UserScoreData");
+			var table = this.tableClient.GetTableReference("ScoreData");
 
 			var userScoreDataFilter = TableQuery.GenerateFilterCondition("UserId", QueryComparisons.Equal, userId);
 
@@ -68,7 +68,7 @@ namespace CryptoPredict.Api.Services
 
 		public async Task<UserScoreData?> PostUserScoreData(UserScoreData userScoreData)
 		{
-			var table = this.tableClient.GetTableReference("UserScoreData");
+			var table = this.tableClient.GetTableReference("ScoreData");
 			var entity = await GetUserScoreData(userScoreData.UserId);
 			if (entity != null)
 			{
