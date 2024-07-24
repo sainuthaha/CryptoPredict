@@ -19,3 +19,10 @@ Deployment
 The Web App and the API App are both hosted on Microsoft Azure utilizing Azure App Service, a platform that allows for the building, deployment, and scaling of web apps. 
 This platform provides robust capabilities such as built-in DevOps, continuous integration with Visual Studio Online and GitHub, staging and production support, and automatic patching. 
 With Azure App Service, our applications can enjoy a seamless deployment and management experience.
+
+
+Further steps:
+1. Authentication
+2. Units tests+ Integration tests
+3. CI/CD
+
