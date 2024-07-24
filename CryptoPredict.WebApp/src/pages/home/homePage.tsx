@@ -1,7 +1,7 @@
 ﻿import { useState } from "react";
 import { Predict } from "../../feature/predict/predict";
-import AppDetails from "../../feature/appDetails/appDetails.";
 import Login from "../../feature/login/login";
+import AppDetails from "../../feature/appDetails/appDetails";
 
 export const HomePage = () => {
 	const [userId, setUserId] = useState("");

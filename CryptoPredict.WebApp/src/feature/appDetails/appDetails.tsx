@@ -18,12 +18,6 @@ const headerStyle: React.CSSProperties = {
   marginBottom: '20px'
 }
 
-const imageStyle: React.CSSProperties = {
-  width: '50px',
-  height: '50px',
-  marginRight: '10px'
-}
-
 const textStyle: React.CSSProperties = {
   margin: '0'
 }
