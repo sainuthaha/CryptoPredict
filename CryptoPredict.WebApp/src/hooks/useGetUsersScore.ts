@@ -1,4 +1,4 @@
-﻿import useSWRImmutable from 'swr/immutable';
+﻿import useSWR from 'swr';
 import { HttpError, get } from '../common/httpClient';
 import { UserScoreData } from '../models/score';
 
@@ -8,12 +8,14 @@ export const useGetUserScore = (userId: string) => {
 		data: score,
 		error,
 		isLoading,
-	} = useSWRImmutable<UserScoreData, HttpError<string>>(url, get);
+	} = useSWR<UserScoreData, HttpError<string>>(url, get );
 	if (error) {
 		console.error(error);
 		throw error;
 	}
 
 	console.log(score);
+	console.log(isLoading);
+	console.log("done");
 	return { score, isLoading };
 }  

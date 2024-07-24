@@ -12,8 +12,6 @@ import { useGetBtcPrice } from "../../hooks/useGetBtcCurrentPrice";
 
 const useSetScore =  (userId: string) => {
 	const dispatch = useDispatch();
-	console.log("helooooooo");
-	//const userId = "sainu1";
 	const scoreResponse = useGetUserScore(userId);
 
 	console.log("Response:", scoreResponse);

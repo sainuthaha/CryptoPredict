@@ -10,7 +10,7 @@ export const useSetUserScore = () => {
     const { data, error, isMutating, trigger } = useSWRMutation<
         UserScoreData,
         HttpError<UserScoreData>
-    >(url, () => put(url, { arg: usersScoreData }), { revalidate: false });
+    >(url, () => put(url, { arg: usersScoreData }), { revalidate: true });
 
     return {
     trigger,
