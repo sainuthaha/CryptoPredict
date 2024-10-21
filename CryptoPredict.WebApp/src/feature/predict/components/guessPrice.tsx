@@ -1,4 +1,6 @@
-﻿import { Button, IButtonStyles } from "@fluentui/react";
+﻿
+
+import { Button, IButtonStyles } from "@fluentui/react";
 import { useEffect, useState } from "react";
 import { UserScoreData } from "../../../models/score";
 import useStoreState from "../../../hooks/useStoreState";
@@ -43,13 +45,15 @@ export const GuessPrice = () => {
 	const [btcPrice, setBtcPrice] = useState<number>(price);
 	const [countdown, setCountdown] = useState<number | null>(null);
 	const { trigger: setUserScore } = useSetUserScore();
-
+let countdownInterval: NodeJS.Timeout;
 	useEffect(() => {
-		if (lastGuess && countdown && countdown == 60) {
-			setInterval(() => {
+		if (lastGuess && countdown && countdown >0) {
+			countdownInterval=setInterval(() => {
 				setCountdown(countdown => countdown !== null && countdown > 0 ? countdown - 1 : 0);
 			}, 1000);
+            
 		}
+        return () => clearInterval(countdownInterval);
 	}, [countdown, lastGuess]);
 
 	useEffect(() => {
@@ -91,7 +95,7 @@ export const GuessPrice = () => {
 				setUserScore();
 			}, 2000);
 
-			setCountdown(60);
+			setCountdown(5);
 		}
 	};
 

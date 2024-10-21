@@ -3,7 +3,6 @@ import { Url } from '../config/urls';
 import './App.css';
 import { Provider } from 'react-redux';
 import { store } from './store';
-import Graph from '../feature/graph/graph';
 import { HomePage } from '../pages/home/homePage';
 
 export default function App() {

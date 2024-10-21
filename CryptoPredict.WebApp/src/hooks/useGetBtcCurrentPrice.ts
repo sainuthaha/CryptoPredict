@@ -9,7 +9,7 @@ export const useGetBtcPrice = () => {
         data: price,
         error,
         isLoading,
-    } = useSWRImmutable<number, HttpError<string>>('/btcPrice/currentPrice', get, { refreshInterval: refreshGap });
+    } = useSWRImmutable<number, HttpError<string>>('/crypto/currentPrice', get, { refreshInterval: refreshGap });
     if (error) {
         throw error;
     }
