@@ -2,7 +2,6 @@
 import { Predict } from "../../feature/predict/predict";
 import Login from "../../feature/login/login";
 import AppDetails from "../../feature/appDetails/appDetails";
-import Graph from "../../feature/graph/graph";
 
 export const HomePage = () => {
 	const [userId, setUserId] = useState("");
@@ -26,7 +25,7 @@ export const HomePage = () => {
 			{!isGameStarted ? (
 				<Login onLogin={onLogin} />
 			) : (<>
-					<Graph/>
+					<Predict userId={userId} onChange={changeUser} />
 				
 			</>)}
 			

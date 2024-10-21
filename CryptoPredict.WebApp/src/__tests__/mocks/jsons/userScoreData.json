@@ -1,0 +1,10 @@
+{
+    "userId": "Guest user",
+    "score": 5,
+    "guessTime": null,
+    "guessPrice": null,
+    "rowkey": null,
+    "partitionKey": null,
+    "eTag": null,
+    "timestamp":null
+}

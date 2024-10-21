@@ -16,6 +16,6 @@ export const useGetUserScore = (userId: string) => {
 
 	console.log(score);
 	console.log(isLoading);
-	console.log("done");
+	console.log("done userGetScore");
 	return { score, isLoading };
 }  

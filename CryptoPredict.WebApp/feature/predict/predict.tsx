@@ -44,10 +44,10 @@ const useSetPrice = () => {
 
 interface PredictProps {
 	userId: string;
-	
+	onChange: () => void;
 }
 
-export const Predict = ({ userId}: PredictProps) => {
+export const Predict = ({ userId, onChange }: PredictProps) => {
 
 	useSetScore(userId);
 	useSetPrice();
@@ -60,6 +60,7 @@ export const Predict = ({ userId}: PredictProps) => {
 			<Stack.Item styles={stackItemStyles}><CurrentScore /></Stack.Item>
 			<Stack.Item styles={stackItemStyles}><BtcPrice /></Stack.Item>
 			<Stack.Item styles={stackItemStyles}><GuessPrice /></Stack.Item> 
+			<Stack.Item styles={stackItemStyles}><PrimaryButton text="Change User" onClick={onChange} /></Stack.Item>
 		</Stack>
 	);
 };

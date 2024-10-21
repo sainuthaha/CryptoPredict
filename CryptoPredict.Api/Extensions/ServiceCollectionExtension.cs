@@ -7,10 +7,11 @@ namespace CryptoPredict.Api.Extensions
 {
     public static class ServiceCollectionExtension
     {
-        private sealed record HttpClientOptions
-        {
-            public required Uri BaseAddress { get; init; }
-        }
+		private sealed record HttpClientOptions
+		{
+			public required Uri BaseAddress { get; init; }
+			public required string ApiKey { get; init; }
+		}
 
 		public static async Task<TResponse> GetResponseAsync<TResponse>(
 			this HttpClient client,
@@ -76,7 +77,8 @@ namespace CryptoPredict.Api.Extensions
                 .ConfigureHttpClient(client =>
                 {
                     client.BaseAddress = options.BaseAddress;
-                })
+					//client.DefaultRequestHeaders.Add("x_cg_demo_api_key", options.ApiKey);
+				})
                 ;
             return services;
         }

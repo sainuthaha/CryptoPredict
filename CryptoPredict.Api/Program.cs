@@ -6,17 +6,14 @@ using Microsoft.AspNetCore.Builder;
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddSingleton<IBtcPriceService, BtcPriceService>();
+builder.Services.AddSingleton<ICryptoPriceService, CryptoPriceService>();
 builder.Services.AddSingleton<IUserScoreDataService, UserScoreDataService>();
 builder.Services.AddStorageService(configuration);
-builder.Services.AddHttpClient<IBtcPriceService,BtcPriceService>(configuration);
+builder.Services.AddHttpClient<ICryptoPriceService,CryptoPriceService>(configuration);
 
 var app = builder.Build();
 

@@ -58,6 +58,7 @@ export const GuessPrice = () => {
 
 	useEffect(() => {
 		if (lastGuess && guessTime && countdown == 0) {
+			console.log("inside use effect of guess price");
 			if ((lastGuess === 'up' && price > usersScoreData.guessPrice) ||
 				(lastGuess === 'down' && price < usersScoreData.guessPrice)) {
 				dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score + 1, "userId": usersScoreData.userId }));
