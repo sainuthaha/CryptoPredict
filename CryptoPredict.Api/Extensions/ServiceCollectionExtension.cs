@@ -10,7 +10,6 @@ namespace CryptoPredict.Api.Extensions
 		private sealed record HttpClientOptions
 		{
 			public required Uri BaseAddress { get; init; }
-			public required string ApiKey { get; init; }
 		}
 
 		public static async Task<TResponse> GetResponseAsync<TResponse>(
@@ -77,7 +76,7 @@ namespace CryptoPredict.Api.Extensions
                 .ConfigureHttpClient(client =>
                 {
                     client.BaseAddress = options.BaseAddress;
-					//client.DefaultRequestHeaders.Add("x_cg_demo_api_key", options.ApiKey);
+					client.DefaultRequestHeaders.Add("User-Agent","crypto-dashboard");
 				})
                 ;
             return services;
