@@ -76,7 +76,7 @@ namespace CryptoPredict.Api.Extensions
                 .ConfigureHttpClient(client =>
                 {
                     client.BaseAddress = options.BaseAddress;
-					client.DefaultRequestHeaders.Add("User-Agent","crypto-dashboard");
+					client.DefaultRequestHeaders.Add("accept","application/json");
 				})
                 ;
             return services;

@@ -28,8 +28,8 @@ namespace CryptoPredict.Api.Services
 		{
 			var fromUnix = fromEpoch;
 			var toUnix = toEpoch;
-			var btcEndpoint = $"/bitcoin/market_chart/range?vs_currency=usd&from={fromUnix}&to={toUnix}&x_cg_demo_api_key={apikey}";
-			var response = await httpClient.GetResponseAsync<MarketRange>(btcEndpoint);
+			var btcEndPoint = $"/api/v3/coins/bitcoin/market_chart/range?vs_currency=usd&from={fromUnix}&to={toUnix}&x_cg_demo_api_key={apikey}";
+			var response = await httpClient.GetResponseAsync<MarketRange>(btcEndPoint);
 			return response;
 		}
 
@@ -37,7 +37,7 @@ namespace CryptoPredict.Api.Services
 		{
 			var fromUnix = fromEpoch;
 			var toUnix = toEpoch;
-			var ethEndpoint = $"/ethereum/market_chart/range?vs_currency=usd&from={fromUnix}&to={toUnix}&x_cg_demo_api_key={apikey}";
+			var ethEndpoint = $"/api/v3/coins/ethereum/market_chart/range?vs_currency=usd&from={fromUnix}&to={toUnix}&x_cg_demo_api_key={apikey}";
 			var response = await httpClient.GetResponseAsync<MarketRange>(ethEndpoint);
 			return response;
 		}
