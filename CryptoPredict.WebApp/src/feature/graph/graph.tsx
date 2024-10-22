@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Line } from 'react-chartjs-2';
 import './graph.css.ts';
 import {
@@ -28,20 +27,19 @@ ChartJS.register(
 	Legend
 );
 
-interface GraphProps
-{
-	userId:string
+interface GraphProps {
+	userId: string
 }
 
-const Graph = ({userId}:GraphProps) => {
+const Graph = ({ userId }: GraphProps) => {
 	const [bitcoinData, setBitcoinData] = useState<PricePoint[] | undefined>([]);
 	const [ethereumData, setEthereumData] = useState<PricePoint[] | undefined>([]);
 	const [currentEpochTime, setCurrentEpochTime] = useState(0);
 	const [isBtcPredictorVisible, setBtcPredictorVisible] = useState(false);
 	const [isEthPredictorVisible, setEthPredictorVisible] = useState(false);
 
-	const { marketRange: btcMarketRange, isBtcLoading } = useGetBtcMarketRange('btc');
-	const { marketRange: ethMarketRange, isEthLoading } = useGetBtcMarketRange('eth');
+	const { marketRange: btcMarketRange } = useGetBtcMarketRange('btc');
+	const { marketRange: ethMarketRange } = useGetBtcMarketRange('eth');
 
 	useEffect(() => {
 		const epochInterval = setInterval(() => {
@@ -61,8 +59,7 @@ const Graph = ({userId}:GraphProps) => {
 					price: price.price,
 				}))
 			);
-			console.log("hello...")
-			console.log(bitcoinData);
+
 			setEthereumData(
 				ethMarketRange?.prices?.map((price: PricePoint) => ({
 					timestamp: price.timestamp,
@@ -90,10 +87,6 @@ const Graph = ({userId}:GraphProps) => {
 	return (
 		<div style={styles.body}>
 			<div>
-				<header style={styles.headerStyle}>
-					<h1 style={styles.textStyle}>Market Trend Graph</h1>
-				</header>
-
 				<div>
 					{isBtcPredictorVisible == true || isEthPredictorVisible == true ?
 						(<>
@@ -101,54 +94,58 @@ const Graph = ({userId}:GraphProps) => {
 							<div style={styles.buttonContainer}>
 								<button style={styles.button} onClick={() => { setBtcPredictorVisible(false); setEthPredictorVisible(false) }}>Exit</button>
 							</div>
-							x				</>)
-						: (<div style={styles.chartContainer}>
-							<div style={styles.cryptoChart}>
-								<h2 style={styles.h2}>Bitcoin (BTC)</h2>
-								<Line
-									data={formatChartData(bitcoinData)}
-									options={{
-										responsive: true,
-										plugins: {
-											legend: {
-												position: 'top',
+						</>)
+						: (
+						<><header style={styles.headerStyle}>
+							<h1 style={styles.textStyle}>Market Trend Graph</h1>
+						</header>
+							<div style={styles.chartContainer}>
+								<div style={styles.cryptoChart}>
+									<h2 style={styles.h2}>Bitcoin (BTC)</h2>
+									<Line
+										data={formatChartData(bitcoinData)}
+										options={{
+											responsive: true,
+											plugins: {
+												legend: {
+													position: 'top',
+												},
+												title: {
+													display: true,
+													text: 'Bitcoin Price (Last 1 Hour)',
+												},
 											},
-											title: {
-												display: true,
-												text: 'Bitcoin Price (Last 1 Hour)',
+										}}
+									/>
+									<div style={styles.buttonContainer}>
+										<button style={styles.button} onClick={() => setBtcPredictorVisible(true)}>BTC Price Predictor</button>
+									</div>
+								</div>
+								<div style={styles.cryptoChart}>
+									<h2 style={styles.h2}>Ethereum (ETH)</h2>
+									<Line
+										data={formatChartData(ethereumData)}
+										options={{
+											responsive: true,
+											plugins: {
+												legend: {
+													position: 'top',
+												},
+												title: {
+													display: true,
+													text: 'Ethereum Price (Last 1 Hour)',
+												},
 											},
-										},
-									}}
-								/>
-								<div style={styles.buttonContainer}>
-									<button style={styles.button} onClick={() => setBtcPredictorVisible(true)}>BTC Price Predictor</button>
+										}}
+									/>
+									<div style={styles.buttonContainer}>
+										<button style={styles.button} onClick={() => setEthPredictorVisible(true)}>Ethereum Price Predictor</button>
+									</div>
 								</div>
 							</div>
-							<div style={styles.cryptoChart}>
-								<h2 style={styles.h2}>Ethereum (ETH)</h2>
-								<Line
-									data={formatChartData(ethereumData)}
-									options={{
-										responsive: true,
-										plugins: {
-											legend: {
-												position: 'top',
-											},
-											title: {
-												display: true,
-												text: 'Ethereum Price (Last 1 Hour)',
-											},
-										},
-									}}
-								/>
-								<div style={styles.buttonContainer}>
-								<button style={styles.button} onClick={() => setEthPredictorVisible(true)}>Ethereum Price Predictor</button>
-							    </div>
-							</div>
-						</div>)}
-					<div>
-						<p style={styles.epochTime}>Current UNIX Epoch Time: {currentEpochTime}</p>
-					</div>
+							</>
+						)}
+					
 				</div>
 
 			</div>

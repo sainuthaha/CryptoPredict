@@ -15,7 +15,6 @@ export const stackItemStyles: IStackStyles = {
 
 export const stackStyles: IStackStyles = {
   root: {
-    marginTop: '50px',
     backgroundColor: '#121212', // Match the dark theme background
     padding: '20px',
     borderRadius: '8px', // Rounded corners for a smooth appearance
@@ -30,5 +29,45 @@ export const textStyles: ITextStyles = {
     backgroundColor: '#1E1E2F', // Match the dark background
     padding: '10px', // Add some padding for spacing
     borderRadius: '5px', // Slight rounding of corners
+  },
+};
+
+export const styles = {
+  countdownContainer: {
+    textAlign: 'center',
+    margin: '20px 0',
+  },
+  resultContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
+    gap: '50px',
+    margin: '20px 0',
+    padding: '15px',
+    borderRadius: '12px',
+    backgroundColor: '#fafafa',
+    boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+  },
+  resultItem: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    gap: '5px',
+  },
+  label: {
+    fontSize: '16px',
+    fontWeight: '600',
+    color: '#333',
+  },
+  value: {
+    fontSize: '20px',
+    fontWeight: 'bold',
+    color: '#007acc',
+  },
+  buttonContainer: {
+    display: 'flex',
+    justifyContent: 'center',
+    gap: '30px',
+    marginTop: '25px',
   },
 };

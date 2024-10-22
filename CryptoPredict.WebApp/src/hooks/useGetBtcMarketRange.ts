@@ -21,8 +21,7 @@ export const useGetBtcMarketRange =(coin:string)=> {
 
         return () => clearInterval(intervalId); // Cleanup on unmount
     }, []);
-
-    console.log(url);
+    
     const {
         data: marketRange,
         error,

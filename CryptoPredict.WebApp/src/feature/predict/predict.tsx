@@ -13,7 +13,7 @@ const useSetPrice = () => {
 	const { price, isLoading } = useGetBtcPrice();
 
 	useEffect(() => {
-		console.log(price);
+		
 		if (!isLoading) {
 			dispatch(currentPriceActions.setCurrentPrice(price));
 		}

@@ -7,6 +7,7 @@ import useStoreState from "../../../hooks/useStoreState";
 import { useDispatch } from "react-redux";
 import { currentScoreActions } from "./currentScoreSlice";
 import { useSetUserScore } from "../../../hooks/useSetUsersScore";
+import { styles } from "../predict.css";
 
 const greenButtonStyles: IButtonStyles = {
     root: {
@@ -72,7 +73,7 @@ export const GuessPrice = () => {
 				dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score - 1, "userId": usersScoreData.userId }));
 			}
 			else {
-				console.log("invalid");
+				
 				dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score, "userId": usersScoreData.userId }));
 
 			}
@@ -102,18 +103,45 @@ export const GuessPrice = () => {
 
 	return (
 		<>
-			<div>
-				{countdown !== null ? `Countdown: ${countdown}` : 'Waiting for guess...'}
+		  <div style={styles.countdownContainer}>
+			{countdown !== null ? (
+			  <h2>⏳ Countdown: {countdown}</h2>
+			) : (
+			  <h2>🤔 Waiting for guess...</h2>
+			)}
+		  </div>
+	  
+		  {lastGuess !== null && (
+			<div style={styles.resultContainer}>
+			  <div style={styles.resultItem}>
+				<span style={styles.label}>Selection:</span> 
+				<span style={styles.value}>{lastGuess}</span>
+			  </div>
+			  <div style={styles.resultItem}>
+				<span style={styles.label}>Guess Price:</span> 
+				<span style={styles.value}>{usersScoreData.guessPrice}</span>
+			  </div>
 			</div>
-			<br>
-			</br>
-			{lastGuess !== null && `Selection: ${lastGuess}  GuessPrice ${usersScoreData.guessPrice}`}
-		
-			<div>
-				<Button disabled={!!lastGuess} styles={greenButtonStyles} onClick={() => makeGuess('up')}>Up</Button>
-				<Button disabled={!!lastGuess} styles={redButtonStyles} onClick={() => makeGuess('down')}>Down</Button>
-			</div>
+		  )}
+	  
+		  <div style={styles.buttonContainer}>
+			<Button
+			  disabled={!!lastGuess}
+			  styles={greenButtonStyles}
+			  onClick={() => makeGuess('up')}
+			>
+			  ⬆ Up
+			</Button>
+			<Button
+			  disabled={!!lastGuess}
+			  styles={redButtonStyles}
+			  onClick={() => makeGuess('down')}
+			>
+			  ⬇ Down
+			</Button>
+		  </div>
 		</>
-	);
+	  );
+	  
 };
 

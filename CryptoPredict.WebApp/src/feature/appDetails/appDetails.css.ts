@@ -4,8 +4,7 @@ export const headerStyle = {
     display: 'flex',
     justifyContent: 'center',
     alignItems: 'center',
-    padding: '40px',
-    marginBottom: '20px',
+    paddingBottom: '10px',
     boxShadow: '0 4px 15px rgba(0, 0, 0, 0.7)', // Deeper shadow for more depth
     borderBottom: '2px solid #333', // Subtle border for separation
   };

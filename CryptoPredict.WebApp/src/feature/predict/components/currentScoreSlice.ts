@@ -17,7 +17,6 @@ const currentScoreSlice = createSlice({
         },
 
         setScore: (state, action: PayloadAction<UserScoreData | undefined>) => {
-            console.log("Set score called");
             return { ...state, ...action.payload };
         },
 

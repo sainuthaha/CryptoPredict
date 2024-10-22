@@ -15,7 +15,6 @@ export const HomePage = () => {
 
     const onLogin = (userId: string) => {
         setUserId(userId);
-        console.log("Logged in user ID:", userId); // Log user ID for debugging
     };
 
     useEffect(() => {
@@ -25,7 +24,7 @@ export const HomePage = () => {
                 score: score?.score ?? 0,
                 userId: score?.userId ?? userId,
             };
-            console.log("Setting score:", stableScore);
+            
             dispatch(currentScoreActions.setScore(stableScore)); 
             if (userId ) {
             setIsGameStarted(true);}// Dispatch action to set score

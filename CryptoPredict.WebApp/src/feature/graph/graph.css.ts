@@ -44,7 +44,7 @@
     marginTop: '20px',
   },
   button: {
-    backgroundColor: '#6200ea', // Purple background for buttons
+    backgroundColor: '#BB86FC', // Purple background for buttons
     color: '#ffffff', // White text for contrast
     border: 'none',
     borderRadius: '5px',
@@ -72,11 +72,7 @@
     color: '#03dac6', // Teal color to match other headings
     display: 'flex',
     justifyContent: 'center',
-    alignItems: 'center',
-    padding: '40px',
-    marginBottom: '20px',
-    boxShadow: '0 4px 15px rgba(0, 0, 0, 0.7)', // Deep shadow for emphasis
-    borderBottom: '2px solid #333', // Subtle border for separation
+    alignItems: 'center'
   },
   textStyle: {
     margin: '0',

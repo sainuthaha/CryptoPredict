@@ -1,5 +1,7 @@
 ﻿body {
     background: #121212; /* Dark background */
     color: #E0E0E0; /* Light text color for readability */
-    margin-top: 0;
+ 
+   
+    box-sizing: border-box;
 }
