@@ -28,8 +28,12 @@ ChartJS.register(
 	Legend
 );
 
+interface GraphProps
+{
+	userId:string
+}
 
-const Graph = () => {
+const Graph = ({userId}:GraphProps) => {
 	const [bitcoinData, setBitcoinData] = useState<PricePoint[] | undefined>([]);
 	const [ethereumData, setEthereumData] = useState<PricePoint[] | undefined>([]);
 	const [currentEpochTime, setCurrentEpochTime] = useState(0);
@@ -93,7 +97,7 @@ const Graph = () => {
 				<div>
 					{isBtcPredictorVisible == true || isEthPredictorVisible == true ?
 						(<>
-							<Predict userId='sainu' />
+							<Predict userId={userId} />
 							<div style={styles.buttonContainer}>
 								<button style={styles.button} onClick={() => { setBtcPredictorVisible(false); setEthPredictorVisible(false) }}>Exit</button>
 							</div>

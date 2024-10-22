@@ -3,19 +3,17 @@ import { HttpError, get } from '../common/httpClient';
 import { UserScoreData } from '../models/score';
 
 export const useGetUserScore = (userId: string) => {
-	const url = `/user/scoreData?userId=${userId}`;
-	const {
-		data: score,
-		error,
-		isLoading,
-	} = useSWR<UserScoreData, HttpError<string>>(url, get );
-	if (error) {
-		console.error(error);
-		throw error;
-	}
+    // Early return if userId is undefined or empty
+    const url = `/user/scoreData?userId=${userId}`;
+    
+    // Using SWR to fetch user score data
+    const { data: score, error, isLoading } = useSWR<UserScoreData, HttpError<string>>(url, get);
 
-	console.log(score);
-	console.log(isLoading);
-	console.log("done userGetScore");
-	return { score, isLoading };
-}  
+    // Handle errors by logging and returning them
+    if (error) {
+        console.error("Error fetching user score:", error);
+        return { score: null, isLoading: false, error }; // Return error in response
+    }
+    
+    return { score, isLoading, error: null }; // Return the score and loading state
+};

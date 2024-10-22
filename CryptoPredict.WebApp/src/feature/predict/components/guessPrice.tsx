@@ -45,7 +45,8 @@ export const GuessPrice = () => {
 	const [btcPrice, setBtcPrice] = useState<number>(price);
 	const [countdown, setCountdown] = useState<number | null>(null);
 	const { trigger: setUserScore } = useSetUserScore();
-let countdownInterval: NodeJS.Timeout;
+    let countdownInterval: NodeJS.Timeout;
+	
 	useEffect(() => {
 		if (lastGuess && countdown && countdown >0) {
 			countdownInterval=setInterval(() => {
@@ -71,6 +72,7 @@ let countdownInterval: NodeJS.Timeout;
 				dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score - 1, "userId": usersScoreData.userId }));
 			}
 			else {
+				console.log("invalid");
 				dispatch(currentScoreActions.setScore({ "guessPrice": btcPrice, "guessTime": new Date().toISOString(), "score": usersScoreData.score, "userId": usersScoreData.userId }));
 
 			}
@@ -83,12 +85,11 @@ let countdownInterval: NodeJS.Timeout;
 	}, [lastGuess, guessTime, dispatch, countdown, setUserScore, usersScoreData.score, price, usersScoreData.guessPrice, usersScoreData.userId, usersScoreData.guessTime, usersScoreData, btcPrice]);
 
 	const makeGuess = (guess: string) => {
-		console.log("makeGuess")
+		
 		if (!lastGuess) {
 			setLastGuess(guess);
 			setGuessTime(new Date().toISOString());
 			setBtcPrice(price);
-			console.log("user clciking......");
 			dispatch(currentScoreActions.setScore({ "guessPrice": price, "guessTime": new Date().toISOString(), "score": usersScoreData.score, "userId": usersScoreData.userId }));
 
 			setTimeout(() => {
@@ -106,7 +107,7 @@ let countdownInterval: NodeJS.Timeout;
 			</div>
 			<br>
 			</br>
-			{lastGuess !== null && `Selection: ${lastGuess}`}
+			{lastGuess !== null && `Selection: ${lastGuess}  GuessPrice ${usersScoreData.guessPrice}`}
 		
 			<div>
 				<Button disabled={!!lastGuess} styles={greenButtonStyles} onClick={() => makeGuess('up')}>Up</Button>

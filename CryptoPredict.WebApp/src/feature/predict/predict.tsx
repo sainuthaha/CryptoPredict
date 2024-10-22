@@ -1,32 +1,12 @@
-﻿import { PrimaryButton, Stack,Text } from "@fluentui/react";
+﻿import { Stack,Text } from "@fluentui/react";
 import { stackItemStyles, stackStyles, textStyles } from "./predict.css";
 import { BtcPrice } from "./components/btcPrice";
 import { GuessPrice } from "./components/guessPrice";
 import { CurrentScore } from "./components/currentScore";
-import { useGetUserScore } from "../../hooks/useGetUsersScore";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
-import { currentScoreActions } from "./components/currentScoreSlice";
 import { currentPriceActions } from "./components/btcPriceSlice";
 import { useGetBtcPrice } from "../../hooks/useGetBtcCurrentPrice";
-
-const useSetScore =  (userId: string) => {
-	const dispatch = useDispatch();
-	const scoreResponse = useGetUserScore(userId);
-
-	console.log("Response:", scoreResponse);
-	useEffect(() => {
-		dispatch(currentScoreActions.setScore(
-			{
-				"guessPrice": scoreResponse.score?.guessPrice ?? 0,
-				"guessTime": new Date().toISOString(),
-				"score": scoreResponse.score?.score ?? 0,
-				"userId": scoreResponse.score?.userId ?? userId
-			}));
-	}, [scoreResponse, dispatch, userId]);  
-
-	return scoreResponse;
-};
 
 const useSetPrice = () => {
 	const dispatch = useDispatch();
@@ -44,12 +24,9 @@ const useSetPrice = () => {
 
 interface PredictProps {
 	userId: string;
-	
 }
 
 export const Predict = ({ userId}: PredictProps) => {
-
-	useSetScore(userId);
 	useSetPrice();
 
 	return (
